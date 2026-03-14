@@ -1,0 +1,143 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 450px;
+    height: 95px;
+    border: 1px solid black;
+}
+
+header h1 {
+    position: relative;
+    margin: 15px 15px;
+    font-size: 30px;
+}
+
+header nav {
+    width: 100%;
+}
+
+header nav ul {
+    display: flex;
+    position: relative;
+    list-style: none;
+}
+
+header nav ul li {
+    text-align: center;
+    position: relative;
+    padding: 5px 0;
+    width: 33.33%;
+    border: 1px solid;
+    border-bottom: none;
+}
+
+#todas {
+    border-left: none;
+}
+
+#concluidas {
+    border-left: none;
+    border-right: none;
+}
+
+#pendentes {
+    border-right: none;
+}
+
+main {
+    position: relative;
+    width: 450px;
+    height: 500px;
+    border: 1px solid black;
+    border-top: none;
+}
+
+.tarefas, .makeTarefas {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    border: 1px solid black;
+    border-left: none;
+    border-top: none;
+}
+
+.makeTarefas {
+    border-bottom: none;
+}
+
+.tarefas {
+    display: flex;
+    flex-direction: column;
+    gap: 2px 0;
+    position: relative;
+    padding: 2px;
+    overflow: scroll;
+}
+
+.tarefas::-webkit-scrollbar {
+    width: 0;
+}
+
+.tarefa {
+    position: relative;
+    padding: 15px;
+    border: 1px solid black;
+}
+
+.txt-da-tarefa {
+    position: relative;
+    width: 407px;
+    height: 75px;
+    word-break: break-all;
+    /* border: 1px solid red; */
+}
+
+.makeTarefas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+#txtarea {
+    position: relative;
+    margin-top: 15px;
+    padding: 5px;
+    width: 412px;
+    height: 80px;
+    resize: none;
+}
+
+#Add {
+    position: relative;
+    padding: 4px;
+    margin-top: 15px;
+}
+
+/*-- PAGE LOGIN --*/
+
+
+
