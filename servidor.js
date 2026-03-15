@@ -1,92 +1,100 @@
 const express = require('express');
-const mysql = require('mysql2');
-
+const { Pool } = require('pg');
 require('dotenv').config();
-
-const conexaoBD = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
-});
 
 const app = express();
 const PORT = 3000;
 
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL
+});
 
 app.use(express.json());
 app.use(express.static("public"));
 
 
-// LOGIN
+// ADICIONAR TAREFA
+app.post('/tarefa', async (req, res) => {
 
-app.post('/tarefa', (req, res) => {
+    const { texto, userID } = req.body;
 
-    
-
-    const { texto, userID} = req.body;
-
-    
-    conexaoBD.query('INSERT INTO tarefa (txt_da_tarefa, concluida, id_usuario) VALUES (?, false, ?)', [ texto, userID ], (err, result) => {
-        
-        
-
-        if (err) {
-           return res.status(500).json({ error: `ERRO: ${err}`});
-        }
+    try {
+        const result = await pool.query(
+            'INSERT INTO tarefa (txt_da_tarefa, concluida, id_usuario) VALUES ($1, false, $2) RETURNING id_tarefa',
+            [texto, userID]
+        );
 
         res.json({
-            id: result.insertId,
+            id: result.rows[0].id_tarefa,
             texto
         });
-        
 
-    });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 
 });
 
-app.post('/login', (req, res) => {
+
+// LOGIN
+app.post('/login', async (req, res) => {
+
     const { emailL, senhaL } = req.body;
 
-    conexaoBD.query('SELECT * FROM usuario WHERE email = ? AND senha = ?', [ emailL, senhaL], (err, result) => {
-        if (err) {
-            res.status(404).json({ error: err});
-        } else {
-            res.json(result);
-        }
+    try {
+        const result = await pool.query(
+            'SELECT * FROM usuario WHERE email = $1 AND senha = $2',
+            [emailL, senhaL]
+        );
 
-        
+        res.json(result.rows);
 
-    });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+
 });
 
-app.post('/loadTarefas', (req, res) => {
+
+// CARREGAR TAREFAS
+app.post('/loadTarefas', async (req, res) => {
 
     const { userID } = req.body;
 
-    conexaoBD.query('SELECT * FROM tarefa WHERE id_usuario = ?', [ userID ], (err, result) => {
-        if (err) {
-            return res.status(500).json({ error: err });
-        }
+    try {
+        const result = await pool.query(
+            'SELECT * FROM tarefa WHERE id_usuario = $1',
+            [userID]
+        );
 
-        res.json(result);
+        res.json(result.rows);
 
-    });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+
 });
 
-app.delete('/deleteTarefa/:id', (req, res) => {
+
+// DELETAR TAREFA
+app.delete('/deleteTarefa/:id', async (req, res) => {
+
     const id = req.params.id;
 
-    conexaoBD.query('DELETE FROM tarefa WHERE id_tarefa = ?', [ id ], (err, result) => {
-        if (err) {
-            return res.status(404).json({ error: `ERRO: ${err}` });
-        }
+    try {
+        await pool.query(
+            'DELETE FROM tarefa WHERE id_tarefa = $1',
+            [id]
+        );
 
-        res.json({ success: true});
-    });
+        res.json({ success: true });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 
 });
+
 
 app.listen(PORT, () => {
     console.log('rodando na porta ' + PORT);
