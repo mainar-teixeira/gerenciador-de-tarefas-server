@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const pool = new Pool({
-    connectionString: process.env.DB_NAME
+    connectionString: process.env.DATABASE_URL
 });
 
 pool.connect()
