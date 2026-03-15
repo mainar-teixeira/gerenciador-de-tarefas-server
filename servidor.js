@@ -8,8 +8,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DB_NAME
 });
+
+pool.connect()
+  .then(() => console.log("Conectado ao banco"))
+  .catch(err => console.error("Erro ao conectar no banco:", err));
 
 app.use(express.json());
 app.use(express.static("docs"));
