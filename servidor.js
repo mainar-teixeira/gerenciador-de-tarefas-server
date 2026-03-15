@@ -2,6 +2,8 @@ const express = require('express');
 const { Pool } = require('pg');
 require('dotenv').config();
 
+// a
+
 const app = express();
 const PORT = 3000;
 
@@ -10,7 +12,7 @@ const pool = new Pool({
 });
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static("docs"));
 
 
 // ADICIONAR TAREFA
