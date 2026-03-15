@@ -5,7 +5,7 @@ require('dotenv').config();
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.DB_PORT || 3000;
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
