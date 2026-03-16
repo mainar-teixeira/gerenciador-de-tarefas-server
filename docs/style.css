@@ -83,7 +83,6 @@ main {
     border-left: none;
     border-top: none;
     border-right: none;
-    background-image: linear-gradient(90deg,rgb(29, 29, 29), 80%, rgb(0, 0, 0) );
 }
 
 .makeTarefas {
@@ -140,6 +139,3 @@ main {
 }
 
 /*-- PAGE LOGIN --*/
-
-
-
